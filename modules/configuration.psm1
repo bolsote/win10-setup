@@ -161,12 +161,14 @@ $VSPackages = @{
 
 
 $ConfigurationsDir = Join-Path (Split-Path $PSScriptRoot -Parent) "config"
+$RegDir = Join-Path (Split-Path $PSScriptRoot -Parent) "registry"
 $LicensesDir = "$env:OneDrive\Configurations\win\keys"
+$ManualPackagesDir = "$env:OneDrive\Configurations\Win\soft"
 
 $TerminalPackageName = (Get-AppxPackage -Name Microsoft.WindowsTerminal).PackageFamilyName
 
 $ConfigFiles = @{
-    terminal  = @(
+    terminal = @(
         @{
             Contents    = "$ConfigurationsDir\terminal\profile.ps1"
             Destination = "$profile"
@@ -218,8 +220,8 @@ $ConfigFiles = @{
     )
 }
 
-
-$ManualPackagesDir = "$env:USERPROFILE\OneDrive\Configurations\Win\soft"
-
+$RegFiles = @{
+    putty = "$RegDir\putty.reg"
+}
 
 Export-ModuleMember -Variable *

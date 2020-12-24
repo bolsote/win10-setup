@@ -14,3 +14,4 @@ Install-Rust
 
 Copy-Configs $ConfigFiles
 Copy-ManualPackages
+Set-Registry $RegFiles

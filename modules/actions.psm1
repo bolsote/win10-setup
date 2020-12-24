@@ -87,3 +87,9 @@ function Copy-Configs([hashtable]$Configs) {
 function Copy-ManualPackages([string]$Source) {
     Copy-Item -Recurse -Path $Source -Destination "$HOME\Desktop"
 }
+
+function Set-Registry([hashtable]$RegFiles) {
+    foreach ($RegFile in $RegFiles.Values) {
+        Write-Host "reg import $RegFile"
+    }
+}

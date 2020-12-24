@@ -1,10 +1,12 @@
 # Utility functions.
-function Add-Path([string]$Item='.') {
-	# Add a new directory to the Path environment variable.
+function Add-Path([string[]]$Paths='.') {
+	# Add directories to the Path environment variable.
 
-	$PathArray = ${Env:Path}.Trim(';') -Split ';'
-	$PathArray += $Item
-	${Env:Path} = $PathArray -Join ';'
+	foreach ($Path in $Paths) {
+		$PathArray = ${Env:Path}.Trim(';') -Split ';'
+		$PathArray += $Path
+		${Env:Path} = $PathArray -Join ';'
+	}
 }
 
 function Copy-Env([string]$Cmd, [string[]]$CmdArgs) {
@@ -94,8 +96,7 @@ function Set-VMCP {
 New-Alias vea Set-VEnv -Force
 
 # Setup path.
-Add-Path "$HOME/bin"
-Add-Path "$HOME/.cargo/bin"
+Add-Path "$HOME\bin"
 
 # Chocolatey profile.
 $ChocolateyProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
