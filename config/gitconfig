@@ -1,0 +1,25 @@
+[user]
+	name = Víctor Muñoz
+	email = victorm@marshland.es
+
+[core]
+	autocrlf = true
+	editor = code -w
+	excludesfile = ~/.gitignore_global
+[pull]
+	rebase = true
+[init]
+	defaultBranch = master
+
+[color]
+	ui = false
+
+[diff]
+    tool = vscode
+[difftool "vscode"]
+    cmd = code -w --diff $LOCAL $REMOTE
+
+[merge]
+    tool = vscode
+[mergetool "vscode"]
+    cmd = code -w $MERGED

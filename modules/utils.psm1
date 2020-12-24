@@ -1,9 +1,9 @@
 function Write-Action([string]$Action) {
-    Write-Host -ForegroundColor DarkBlue "`n$($Action)..."
+    Write-Output -ForegroundColor DarkBlue "`n$($Action)..."
 }
 
 function Write-Subaction([string]$Subaction) {
-    Write-Host -ForegroundColor Blue "$($Subaction)..."
+    Write-Output -ForegroundColor Blue "$($Subaction)..."
 }
 
 function Install-List([hashtable]$Packages) {

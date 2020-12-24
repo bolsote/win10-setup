@@ -1,0 +1,7 @@
+[user]
+name = "Victor Munoz"
+email = "victorm@marshland.es"
+github_login = "bolsote"
+
+[msys2]
+install_dir = "C:\\tools\\msys64\\"

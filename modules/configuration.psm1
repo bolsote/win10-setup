@@ -15,6 +15,8 @@ $script:WindowsFeatures = [ordered]@{
 $script:Packages = @{
     Development = @(
         "autohotkey"
+        "boxstarter"
+        "cuda"
         "deno"
         "dotnet"
         "julia"
@@ -150,7 +152,9 @@ $script:VSPackages = @{
     }
 }
 
-$script:ConfigurationsDir = "$HOME\OneDrive\Configurations\Win"
+
+$ConfigurationsDir = "$PSScriptRoot\config"
+$TerminalPackageName = (Get-AppxPackage -Name Microsoft.WindowsTerminal).PackageFamilyName
 
 $script:ConfigFiles = @{
     profile = @{
@@ -159,21 +163,22 @@ $script:ConfigFiles = @{
     }
     terminal = @{
         Contents = "$ConfigurationsDir\terminal.json"
-        Destination = "$env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json"
+        Destination = "$env:LOCALAPPDATA\Packages\$TerminalPackageName\LocalState\settings.json"
     }
     gitconfig = @{
         Contents = "$ConfigurationsDir\gitconfig"
-        Destination = "$HOME\.gitconfig"
+        Destination = "$env:USERPROFILE\.gitconfig"
     }
     gitignore = @{
         Contents = "$ConfigurationsDir\gitignore_global"
-        Destination = "$HOME\.gitignore_global"
+        Destination = "$env:USERPROFILE\.gitignore_global"
     }
     alire = @{
         Contents = "$ConfigurationsDir\alire.toml"
-        Destination = "$HOME\.config\alire\config.toml"
+        Destination = "$env:USERPROFILE\.config\alire\config.toml"
     }
 }
+
 
 $script:ManualPackagesDir = "$HOME\OneDrive\Configurations\Win\soft"
 
