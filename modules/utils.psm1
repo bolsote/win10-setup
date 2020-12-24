@@ -14,6 +14,8 @@ function Install-List([hashtable]$Packages) {
         Write-Subaction "Installing $Name packages"
         choco upgrade -y $PackageList
     }
+
+    RefreshEnv
 }
 
 function Install-WithParams([hashtable]$Packages) {
@@ -23,6 +25,8 @@ function Install-WithParams([hashtable]$Packages) {
 
         choco install -y $Name --params `"$Params`"
     }
+
+    RefreshEnv
 }
 
 function Test-PSCore {
