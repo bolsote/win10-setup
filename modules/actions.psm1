@@ -59,7 +59,7 @@ function Install-Alire([string]$Version) {
     7z e .\alr.zip bin\alr.exe
     Remove-Item -Force alr.zip
 
-    New-Item -ItemType Directory -Force -Path $HOME\bin
+    New-Item -ItemType Directory -Force -Path "$HOME\bin"
     Move-Item .\alr.exe "$HOME\bin\alr.exe"
 }
 
@@ -79,9 +79,9 @@ function Copy-Configs([hashtable]$Configs) {
             $Contents = $ConfigFile.Contents
             $Destination = $ConfigFile.Destination
 
-        Copy-Item $Contents -Destination $Destination -WhatIf
+            Copy-Item $Contents -Destination $Destination -WhatIf
+        }
     }
-}
 }
 
 function Copy-ManualPackages([string]$Source) {

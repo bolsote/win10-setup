@@ -15,7 +15,7 @@ $WindowsCaps = [ordered]@{
 }
 
 $WindowsFeatures = [ordered]@{
-    HyperV = "Microsoft-Hyper-V"
+    HyperV  = "Microsoft-Hyper-V"
     Sandbox = "Containers-DisposableClientVM"
 }
 
@@ -35,18 +35,18 @@ $Packages = @{
         "python3"
         "winmerge"
     )
-    Games = @(
+    Games       = @(
         "goggalaxy"
         "steam"
     )
-    Images = @(
+    Images      = @(
         "irfanview"
         "irfanviewplugins"
     )
-    LaTeX = @(
+    LaTeX       = @(
         "lyx"
     )
-    Media = @(
+    Media       = @(
         "amazon-music"
         "eac"
         "freac"
@@ -57,7 +57,7 @@ $Packages = @{
         "reaper"
         "vlc"
     )
-    Net = @(
+    Net         = @(
         "aria2"
         "bitwarden"
         "googlechrome"
@@ -67,11 +67,11 @@ $Packages = @{
         "winscp"
         "wireshark"
     )
-    Office = @(
+    Office      = @(
         "adobedigitaleditions"
         "sumatrapdf"
     )
-    System = @(
+    System      = @(
         "drmemory"
         "hwmonitor"
         "intelpowergadget"
@@ -80,7 +80,7 @@ $Packages = @{
         "sysinternals"
         "uiforetw"
     )
-    Terminal = @(
+    Terminal    = @(
         "powershell-core"
         "microsoft-windows-terminal"
         "gsudo"
@@ -90,7 +90,7 @@ $Packages = @{
         "burnttoast-psmodule"
         "pester"
     )
-    Tools = @(
+    Tools       = @(
         "7zip.install"
         "7zip.portable"
         "barrier"
@@ -114,26 +114,26 @@ $Packages = @{
 }
 
 $PackagesWithParams = @{
-    everything = @(
+    everything     = @(
         "/client-service"
         "/folder-context-menu"
         "/run-on-system-startup"
         "/start-menu-shortcuts"
     )
-    foobar2000 = @("/NoShortcut")
-    git = @(
+    foobar2000     = @("/NoShortcut")
+    git            = @(
         "/WindowsTerminal"
         "/NoShellIntegration"
         "/GitAndUnixToolsOnPath"
     )
-    miktex = @("/Set:basic")
-    msys2 = @("/NoUpdate")
+    miktex         = @("/Set:basic")
+    msys2          = @("/NoUpdate")
     totalcommander = @("/ShellExtension")
-    vscode = @("/NoDesktopIcon")
+    vscode         = @("/NoDesktopIcon")
 }
 
 $VSPackages = @{
-    Main = @{
+    Main      = @{
         "visualstudio2019community" = @(
             "--no-update"
         )
@@ -143,7 +143,7 @@ $VSPackages = @{
             "--no-includeRecommended"
             "--add Component.Linux.CMake"
         )
-        "visualstudio2019-workload-nativedesktop" = @(
+        "visualstudio2019-workload-nativedesktop"   = @(
             "--no-includeRecommended"
             "--add Microsoft.VisualStudio.Component.Debugger.JustInTime"
             "--add Microsoft.VisualStudio.Component.VC.ASAN"
@@ -160,68 +160,73 @@ $VSPackages = @{
 }
 
 
-$ConfigurationsDir = Join-Path (Split-Path $PSScriptRoot -Parent) "config"
-$RegDir = Join-Path (Split-Path $PSScriptRoot -Parent) "registry"
-$LicensesDir = "$env:OneDrive\Configurations\win\keys"
-$ManualPackagesDir = "$env:OneDrive\Configurations\Win\soft"
+$SetupRoot = Split-Path $PSScriptRoot -Parent
+
+$Dirs = @{
+    Configurations = Join-Path $SetupRoot "config"
+    Registry       = Join-Path $SetupRoot "registry"
+    Licenses       = "$env:OneDrive\Configurations\win\keys"
+    ManualPackages = "$env:OneDrive\Configurations\Win\soft"
+}
 
 $TerminalPackageName = (Get-AppxPackage -Name Microsoft.WindowsTerminal).PackageFamilyName
 
 $ConfigFiles = @{
     terminal = @(
         @{
-            Contents    = "$ConfigurationsDir\terminal\profile.ps1"
+            Contents    = "$($Dirs.Configurations)\terminal\profile.ps1"
             Destination = "$profile"
         }
         @{
-            Contents = "$ConfigurationsDir\terminal\terminal.json"
+            Contents    = "$($Dirs.Configurations)\terminal\terminal.json"
             Destination = "$env:LOCALAPPDATA\Packages\$TerminalPackageName\LocalState\settings.json"
         }
     )
-    git = @(
+    git      = @(
         @{
-            Contents = "$ConfigurationsDir\git\gitconfig"
+            Contents    = "$($Dirs.Configurations)\git\gitconfig"
             Destination = "$env:USERPROFILE\.gitconfig"
         }
         @{
-            Contents = "$ConfigurationsDir\git\gitignore_global"
+            Contents    = "$($Dirs.Configurations)\git\gitignore_global"
             Destination = "$env:USERPROFILE\.gitignore_global"
         }
     )
-    alire = @(
+    alire    = @(
         @{
-            Contents = "$ConfigurationsDir\alire.toml"
+            Contents    = "$($Dirs.Configurations)\alire.toml"
             Destination = "$env:USERPROFILE\.config\alire\config.toml"
         }
     )
     totalcmd = @(
         @{
-            Contents = "$LicensesDir\totalcmd.key"
+            Contents    = "$($Dirs.Licenses)\totalcmd.key"
             Destination = "$env:ProgramFiles\totalcmd\WINCMD.KEY"
         }
         @{
-            Contents = "$ConfigurationsDir\totalcmd\totalcmd.ini"
+            Contents    = "$($Dirs.Configurations)\totalcmd\totalcmd.ini"
             Destination = "$env:APPDATA\GHISLER\wincmd.ini"
         }
         @{
-            Contents    = "$ConfigurationsDir\totalcmd\default.bar"
+            Contents    = "$($Dirs.Configurations)\totalcmd\default.bar"
             Destination = "$env:APPDATA\GHISLER\default.bar"
         }
         @{
-            Contents    = "$ConfigurationsDir\totalcmd\vertical.bar"
+            Contents    = "$($Dirs.Configurations)\totalcmd\vertical.bar"
             Destination = "$env:APPDATA\GHISLER\vertical.bar"
         }
     )
-    reaper = @(
+    reaper   = @(
         @{
-            Contents    = "$LicensesDir\reaper.key"
+            Contents    = "$($Dirs.Licenses)\reaper.key"
             Destination = "$env:APPDATA\REAPER\reaper-license.rk"
         }
     )
 }
 
 $RegFiles = @{
-    putty = "$RegDir\putty.reg"
+    putty = "$($Dirs.Registry)\putty.reg"
 }
+
 
 Export-ModuleMember -Variable *
