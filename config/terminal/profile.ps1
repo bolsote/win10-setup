@@ -97,5 +97,11 @@ New-Alias vea Set-VEnv -Force
 Add-Path "$HOME/bin"
 Add-Path "$HOME/.cargo/bin"
 
+# Chocolatey profile.
+$ChocolateyProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
+if (Test-Path($ChocolateyProfile)) {
+	Import-Module "$ChocolateyProfile"
+}
+
 # Prompt.
 Invoke-Expression (&starship init powershell)

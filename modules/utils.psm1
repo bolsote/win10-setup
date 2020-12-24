@@ -1,9 +1,9 @@
 function Write-Action([string]$Action) {
-    Write-Output -ForegroundColor DarkBlue "`n$($Action)..."
+    Write-Host -ForegroundColor DarkBlue "`n$Action..."
 }
 
 function Write-Subaction([string]$Subaction) {
-    Write-Output -ForegroundColor Blue "$($Subaction)..."
+    Write-Host -ForegroundColor Blue "$Subaction..."
 }
 
 function Install-List([hashtable]$Packages) {
@@ -11,7 +11,7 @@ function Install-List([hashtable]$Packages) {
         $Name = $Category.Name
         $PackageList = $Category.Value -Join " "
 
-        Write-Subaction "Installing $($Name) packages"
+        Write-Subaction "Installing $Name packages"
         choco upgrade -y $PackageList
     }
 }
@@ -23,4 +23,13 @@ function Install-WithParams([hashtable]$Packages) {
 
         choco install -y $Name --params `"$Params`"
     }
+}
+
+function Test-PSCore {
+    $Version = $PSVersionTable.PSVersion.Major
+
+    if ($Version -gt 5) {
+        return $True
+    }
+    return $False
 }

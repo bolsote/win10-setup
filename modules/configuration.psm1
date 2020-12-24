@@ -1,18 +1,25 @@
-$script:ComputerName = "nepomuceno"
+Import-Module $PSScriptRoot\utils -Force
 
-$script:AlireVersion = "0.7.1"
+if (Test-PSCore) {
+    Import-Module Appx -UseWindowsPowerShell
+}
 
 
-$script:WindowsCaps = [ordered]@{
+$ComputerName = "nepomuceno"
+
+$AlireVersion = "0.7.1"
+
+
+$WindowsCaps = [ordered]@{
     ssh = "OpenSSH.Client~~~~0.0.1.0";
 }
 
-$script:WindowsFeatures = [ordered]@{
+$WindowsFeatures = [ordered]@{
     HyperV = "Microsoft-Hyper-V"
     Sandbox = "Containers-DisposableClientVM"
 }
 
-$script:Packages = @{
+$Packages = @{
     Development = @(
         "autohotkey"
         "boxstarter"
@@ -106,7 +113,7 @@ $script:Packages = @{
     )
 }
 
-$script:PackagesWithParams = @{
+$PackagesWithParams = @{
     everything = @(
         "/client-service"
         "/folder-context-menu"
@@ -125,7 +132,7 @@ $script:PackagesWithParams = @{
     vscode = @("/NoDesktopIcon")
 }
 
-$script:VSPackages = @{
+$VSPackages = @{
     Main = @{
         "visualstudio2019community" = @(
             "--no-update"
@@ -153,34 +160,66 @@ $script:VSPackages = @{
 }
 
 
-$ConfigurationsDir = "$PSScriptRoot\config"
+$ConfigurationsDir = Join-Path (Split-Path $PSScriptRoot -Parent) "config"
+$LicensesDir = "$env:OneDrive\Configurations\win\keys"
+
 $TerminalPackageName = (Get-AppxPackage -Name Microsoft.WindowsTerminal).PackageFamilyName
 
-$script:ConfigFiles = @{
-    profile = @{
-        Contents = "$ConfigurationsDir\profile.ps1"
-        Destination = "$profile"
-    }
-    terminal = @{
-        Contents = "$ConfigurationsDir\terminal.json"
-        Destination = "$env:LOCALAPPDATA\Packages\$TerminalPackageName\LocalState\settings.json"
-    }
-    gitconfig = @{
-        Contents = "$ConfigurationsDir\gitconfig"
-        Destination = "$env:USERPROFILE\.gitconfig"
-    }
-    gitignore = @{
-        Contents = "$ConfigurationsDir\gitignore_global"
-        Destination = "$env:USERPROFILE\.gitignore_global"
-    }
-    alire = @{
-        Contents = "$ConfigurationsDir\alire.toml"
-        Destination = "$env:USERPROFILE\.config\alire\config.toml"
-    }
+$ConfigFiles = @{
+    terminal  = @(
+        @{
+            Contents    = "$ConfigurationsDir\terminal\profile.ps1"
+            Destination = "$profile"
+        }
+        @{
+            Contents = "$ConfigurationsDir\terminal\terminal.json"
+            Destination = "$env:LOCALAPPDATA\Packages\$TerminalPackageName\LocalState\settings.json"
+        }
+    )
+    git = @(
+        @{
+            Contents = "$ConfigurationsDir\git\gitconfig"
+            Destination = "$env:USERPROFILE\.gitconfig"
+        }
+        @{
+            Contents = "$ConfigurationsDir\git\gitignore_global"
+            Destination = "$env:USERPROFILE\.gitignore_global"
+        }
+    )
+    alire = @(
+        @{
+            Contents = "$ConfigurationsDir\alire.toml"
+            Destination = "$env:USERPROFILE\.config\alire\config.toml"
+        }
+    )
+    totalcmd = @(
+        @{
+            Contents = "$LicensesDir\totalcmd.key"
+            Destination = "$env:ProgramFiles\totalcmd\WINCMD.KEY"
+        }
+        @{
+            Contents = "$ConfigurationsDir\totalcmd\totalcmd.ini"
+            Destination = "$env:APPDATA\GHISLER\wincmd.ini"
+        }
+        @{
+            Contents    = "$ConfigurationsDir\totalcmd\default.bar"
+            Destination = "$env:APPDATA\GHISLER\default.bar"
+        }
+        @{
+            Contents    = "$ConfigurationsDir\totalcmd\vertical.bar"
+            Destination = "$env:APPDATA\GHISLER\vertical.bar"
+        }
+    )
+    reaper = @(
+        @{
+            Contents    = "$LicensesDir\reaper.key"
+            Destination = "$env:APPDATA\REAPER\reaper-license.rk"
+        }
+    )
 }
 
 
-$script:ManualPackagesDir = "$HOME\OneDrive\Configurations\Win\soft"
+$ManualPackagesDir = "$env:USERPROFILE\OneDrive\Configurations\Win\soft"
 
 
 Export-ModuleMember -Variable *

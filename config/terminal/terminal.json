@@ -21,8 +21,8 @@
         "defaults":
         {
             "colorScheme": "Solarized Light",
-            "fontFace": "Cascadia Code PL",
-            "fontSize": 11,
+            "fontFace": "Source Code Pro",
+            "fontSize": 10,
             "fontWeight": "semi-bold",
             "antialiasingMode": "cleartype",
             "scrollbarState": "hidden",

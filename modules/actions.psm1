@@ -52,14 +52,15 @@ function Install-WSL([string]$Distro="wsl-ubuntu-2004") {
 function Install-Alire([string]$Version) {
     Write-Action "Setting up Alire for Ada development"
 
-    $AlireURI = "https://github.com/alire-project/alire/releases/download/v$($Version)/alr-$($Version)-bin-windows.zip"
+    $AlireRepo = "https://github.com/alire-project/alire"
+    $AlireURI = "$AlireRepo/releases/download/v$Version/alr-$Version-bin-windows.zip"
 
     Invoke-WebRequest $AlireURI -OutFile alr.zip
     7z e .\alr.zip bin\alr.exe
     Remove-Item -Force alr.zip
 
     New-Item -ItemType Directory -Force -Path $HOME\bin
-    Move-Item .\alr.exe $HOME\bin\alr.exe
+    Move-Item .\alr.exe "$HOME\bin\alr.exe"
 }
 
 function Install-Rust {
@@ -68,19 +69,21 @@ function Install-Rust {
     $RustupURI = "https://win.rustup.rs/x86_64"
 
     Invoke-WebRequest $RustupURI -OutFile rustup-init.exe
-    & .\rustup-init.exe -y
+    &.\rustup-init.exe -y
     Remove-Item -Force rustup-init.exe
 }
 
 function Copy-Configs([hashtable]$Configs) {
-    foreach ($Config in $Configs.Values) {
-        $Contents = $Config.Contents
-        $Destination = $Config.Destination
+    foreach ($ConfigFiles in $Configs.Values) {
+        foreach ($ConfigFile in $ConfigFiles) {
+            $Contents = $ConfigFile.Contents
+            $Destination = $ConfigFile.Destination
 
         Copy-Item $Contents -Destination $Destination -WhatIf
     }
 }
+}
 
 function Copy-ManualPackages([string]$Source) {
-    Copy-Item -Recurse -Path $Source -Destination "$HOME\Desktop" -WhatIf
+    Copy-Item -Recurse -Path $Source -Destination "$HOME\Desktop"
 }
