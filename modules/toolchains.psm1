@@ -23,7 +23,10 @@ function Install-Rust([hashtable]$Config) {
     $RustupURI = "https://win.rustup.rs/$Arch"
 
     Invoke-WebRequest $RustupURI -OutFile rustup-init.exe
-    &.\rustup-init.exe -y
+    &.\rustup-init.exe -y `
+        --profile $Config.Profile `
+        --default-host $Config.Host `
+        --default-toolchain $Config.Toolchain
     Remove-Item -Force rustup-init.exe
 }
 

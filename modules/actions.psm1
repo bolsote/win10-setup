@@ -32,10 +32,10 @@ function Install-Packages([hashtable]$Packages) {
 function Install-Toolchains([hashtable]$Config) {
     Write-Action "Setting up toolchains"
 
+    Install-WSL $Config.WSL
+    Install-VS $Config.VisualStudio
     Install-Ada $Config.Ada
     Install-Rust $Config.Rust
-    Install-VS $Config.VisualStudio
-    Install-WSL $Config.WSL
 }
 
 function Copy-Configs([hashtable]$Configs) {

@@ -137,7 +137,10 @@ $Toolchains = @{
         AlireVersion = "0.7.1"
     }
     Rust         = @{
-        Arch = "x86_64"
+        Arch      = "x86_64"
+        Host      = "x86_64-pc-windows-msvc"
+        Profile   = "default"
+        Toolchain = "stable"
     }
     VisualStudio = @{
         Packages = @{
