@@ -64,6 +64,7 @@ $Packages = @{
         "nmap"
         "putty.install"
         "vivaldi"
+        "wifiinfoview"
         "winscp"
         "wireshark"
     )
@@ -165,6 +166,7 @@ $SetupRoot = Split-Path $PSScriptRoot -Parent
 $Dirs = @{
     Configurations = Join-Path $SetupRoot "config"
     Registry       = Join-Path $SetupRoot "registry"
+    Scripts        = Join-Path $SetupRoot "scripts"
     Licenses       = "$env:OneDrive\Configurations\win\keys"
     ManualPackages = "$env:OneDrive\Configurations\Win\soft"
 }

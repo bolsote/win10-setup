@@ -41,7 +41,7 @@ function Install-VS([hashtable]$Packages) {
     Install-WithParams $Packages.Workloads
 }
 
-function Install-WSL([string]$Distro="wsl-ubuntu-2004") {
+function Install-WSL([string]$Distro = "wsl-ubuntu-2004") {
     Write-Action "Installing WSL"
 
     choco upgrade -y wsl
@@ -79,17 +79,21 @@ function Copy-Configs([hashtable]$Configs) {
             $Contents = $ConfigFile.Contents
             $Destination = $ConfigFile.Destination
 
-            Copy-Item $Contents -Destination $Destination -WhatIf
+            Copy-Item $Contents -Destination $Destination
         }
     }
 }
 
+function Copy-Scripts([string]$Source) {
+    Copy-DirContents $Source "$HOME\bin"
+}
+
 function Copy-ManualPackages([string]$Source) {
-    Copy-Item -Recurse -Path $Source -Destination "$HOME\Desktop"
+    Copy-DirContents $Source "$HOME\Desktop"
 }
 
 function Set-Registry([hashtable]$RegFiles) {
     foreach ($RegFile in $RegFiles.Values) {
-        Write-Host "reg import $RegFile"
+        reg import $RegFile
     }
 }

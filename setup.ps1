@@ -13,5 +13,6 @@ Install-Alire $AlireVersion
 Install-Rust
 
 Copy-Configs $ConfigFiles
-Copy-ManualPackages
+Copy-ManualPackages $Dirs.ManualPackages
+Copy-Scripts $Dirs.Scripts
 Set-Registry $RegFiles

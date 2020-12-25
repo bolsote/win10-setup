@@ -29,6 +29,10 @@ function Install-WithParams([hashtable]$Packages) {
     RefreshEnv
 }
 
+function Copy-DirContents([string]$Source, [string]$Destination) {
+    Copy-Item -Recurse -Path "$Source\*" -Destination $Destination
+}
+
 function Test-PSCore {
     $Version = $PSVersionTable.PSVersion.Major
 
