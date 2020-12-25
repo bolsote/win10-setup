@@ -1,3 +1,4 @@
+Import-Module $PSScriptRoot\toolchains -Force
 Import-Module $PSScriptRoot\utils -Force
 
 
@@ -17,7 +18,7 @@ function Enable-WindowsFeatures([hashtable]$Features) {
         Enable-WindowsOptionalFeature -Online -FeatureName $Feature -All
     }
 
-    # Invoke-Reboot
+    Invoke-Reboot
 }
 
 function Install-Packages([hashtable]$Packages) {
@@ -28,49 +29,9 @@ function Install-Packages([hashtable]$Packages) {
     Install-List $Packages.WSL
 }
 
-function Install-Ada([hashtable]$Config) {
-    Write-Action "Setting up Alire for Ada development"
-
-    $Version = $Config.AlireVersion
-    $AlireRepo = "https://github.com/alire-project/alire"
-    $AlireURI = "$AlireRepo/releases/download/v$Version/alr-$Version-bin-windows.zip"
-
-    Invoke-WebRequest $AlireURI -OutFile alr.zip
-    7z e .\alr.zip bin\alr.exe
-    Remove-Item -Force alr.zip
-
-    New-Item -ItemType Directory -Force -Path "$HOME\bin"
-    Move-Item .\alr.exe "$HOME\bin\alr.exe"
-}
-
-function Install-Rust([hashtable]$Config) {
-    Write-Action "Setting up Rust toolchain"
-
-    $Arch = $Config.Arch
-    $RustupURI = "https://win.rustup.rs/$Arch"
-
-    Invoke-WebRequest $RustupURI -OutFile rustup-init.exe
-    &.\rustup-init.exe -y
-    Remove-Item -Force rustup-init.exe
-}
-
-function Install-VS([hashtable]$Config) {
-    Write-Action "Installing Visual Studio"
-
-    Install-WithParams $Config.Packages.Main
-    # Invoke-Reboot
-    Install-WithParams $Config.Packages.Workloads
-}
-
-function Install-WSL([hashtable]$Config) {
-    Write-Action "Installing WSL"
-
-    choco upgrade -y $($Config.Packages.Main)
-    # Invoke-Reboot
-    choco upgrade -y $($Config.Packages.Distro)
-}
-
 function Install-Toolchains([hashtable]$Config) {
+    Write-Action "Setting up toolchains"
+
     Install-Ada $Config.Ada
     Install-Rust $Config.Rust
     Install-VS $Config.VisualStudio
@@ -78,6 +39,8 @@ function Install-Toolchains([hashtable]$Config) {
 }
 
 function Copy-Configs([hashtable]$Configs) {
+    Write-Action "Copying configuration files"
+
     foreach ($ConfigFiles in $Configs.Values) {
         foreach ($ConfigFile in $ConfigFiles) {
             $Contents = $ConfigFile.Contents
@@ -89,10 +52,14 @@ function Copy-Configs([hashtable]$Configs) {
 }
 
 function Copy-ManualPackages([string]$Source) {
+    Write-Action "Copying packages for manual installation"
+
     Copy-DirContents $Source "$HOME\Desktop"
 }
 
 function Set-Registry([hashtable]$RegFiles) {
+    Write-Action "Modifying registry"
+
     foreach ($RegFile in $RegFiles.Values) {
         reg import $RegFile
     }
