@@ -7,156 +7,171 @@ if (Test-PSCore) {
 
 $ComputerName = "nepomuceno"
 
-$AlireVersion = "0.7.1"
-
-
-$WindowsCaps = [ordered]@{
-    ssh = "OpenSSH.Client~~~~0.0.1.0";
-}
-
-$WindowsFeatures = [ordered]@{
-    HyperV  = "Microsoft-Hyper-V"
-    Sandbox = "Containers-DisposableClientVM"
+$Windows = @{
+    Caps     = [ordered]@{
+        ssh = "OpenSSH.Client~~~~0.0.1.0";
+    }
+    Features = [ordered]@{
+        HyperV  = "Microsoft-Hyper-V"
+        Sandbox = "Containers-DisposableClientVM"
+    }
 }
 
 $Packages = @{
-    Development = @(
-        "autohotkey"
-        "boxstarter"
-        "cuda"
-        "deno"
-        "dotnet"
-        "julia"
-        "git-credential-manager-for-windows"
-        "gnat-gpl"
-        "linqpad"
-        "nvs"
-        "openjdk"
-        "python3"
-        "winmerge"
-    )
-    Games       = @(
-        "goggalaxy"
-        "steam"
-    )
-    Images      = @(
-        "irfanview"
-        "irfanviewplugins"
-    )
-    LaTeX       = @(
-        "lyx"
-    )
-    Media       = @(
-        "amazon-music"
-        "eac"
-        "freac"
-        "freeencoderpack"
-        "k-litecodecpack-standard"
-        "lossless-audio-checker"
-        "pov-ray"
-        "reaper"
-        "vlc"
-    )
-    Net         = @(
-        "aria2"
-        "bitwarden"
-        "googlechrome"
-        "nmap"
-        "putty.install"
-        "vivaldi"
-        "wifiinfoview"
-        "winscp"
-        "wireshark"
-    )
-    Office      = @(
-        "adobedigitaleditions"
-        "sumatrapdf"
-    )
-    System      = @(
-        "drmemory"
-        "hwmonitor"
-        "intelpowergadget"
-        "perfview"
-        "processhacker"
-        "sysinternals"
-        "uiforetw"
-    )
-    Terminal    = @(
-        "powershell-core"
-        "microsoft-windows-terminal"
-        "gsudo"
-        "starship"
-        "colortool"
-        "pswindowsupdate"
-        "burnttoast-psmodule"
-        "pester"
-    )
-    Tools       = @(
-        "7zip.install"
-        "7zip.portable"
-        "barrier"
-        "baregrep"
-        "baretail"
-        # Unavailable: "click-monitor-ddc"
-        "dngrep"
-        "hashtab"
-        "logparser"
-        "logparserstudio"
-        "nimbletext"
-        "vcxsrv"
-        "win32diskimager.install"
-        "wiztree"
-        "powertoys"
-        "rapr"
-        "ripgrep"
-        "teamviewer"
-        "trid"
-    )
-}
-
-$PackagesWithParams = @{
-    everything     = @(
-        "/client-service"
-        "/folder-context-menu"
-        "/run-on-system-startup"
-        "/start-menu-shortcuts"
-    )
-    foobar2000     = @("/NoShortcut")
-    git            = @(
-        "/WindowsTerminal"
-        "/NoShellIntegration"
-        "/GitAndUnixToolsOnPath"
-    )
-    miktex         = @("/Set:basic")
-    msys2          = @("/NoUpdate")
-    totalcommander = @("/ShellExtension")
-    vscode         = @("/NoDesktopIcon")
-}
-
-$VSPackages = @{
-    Main      = @{
-        "visualstudio2019community" = @(
-            "--no-update"
+    Categories   = @{
+        Development = @(
+            "autohotkey"
+            "boxstarter"
+            "cuda"
+            "deno"
+            "dotnet"
+            "julia"
+            "git-credential-manager-for-windows"
+            "gnat-gpl"
+            "linqpad"
+            "nvs"
+            "openjdk"
+            "python3"
+            "winmerge"
+        )
+        Games       = @(
+            "goggalaxy"
+            "steam"
+        )
+        Images      = @(
+            "irfanview"
+            "irfanviewplugins"
+        )
+        LaTeX       = @(
+            "lyx"
+        )
+        Media       = @(
+            "amazon-music"
+            "eac"
+            "freac"
+            "freeencoderpack"
+            "k-litecodecpack-standard"
+            "lossless-audio-checker"
+            "pov-ray"
+            "reaper"
+            "vlc"
+        )
+        Net         = @(
+            "aria2"
+            "bitwarden"
+            "googlechrome"
+            "nmap"
+            "putty.install"
+            "vivaldi"
+            "wifiinfoview"
+            "winscp"
+            "wireshark"
+        )
+        Office      = @(
+            "adobedigitaleditions"
+            "sumatrapdf"
+        )
+        System      = @(
+            "drmemory"
+            "hwmonitor"
+            "intelpowergadget"
+            "perfview"
+            "processhacker"
+            "sysinternals"
+            "uiforetw"
+        )
+        Terminal    = @(
+            "powershell-core"
+            "microsoft-windows-terminal"
+            "gsudo"
+            "starship"
+            "colortool"
+            "pswindowsupdate"
+            "burnttoast-psmodule"
+            "pester"
+        )
+        Tools       = @(
+            "7zip.install"
+            "7zip.portable"
+            "barrier"
+            "baregrep"
+            "baretail"
+            # Unavailable: "click-monitor-ddc"
+            "dngrep"
+            "hashtab"
+            "logparser"
+            "logparserstudio"
+            "nimbletext"
+            "vcxsrv"
+            "win32diskimager.install"
+            "wiztree"
+            "powertoys"
+            "rapr"
+            "ripgrep"
+            "teamviewer"
+            "trid"
         )
     }
-    Workloads = @{
-        "visualstudio2019-workload-nativecrossplat" = @(
-            "--no-includeRecommended"
-            "--add Component.Linux.CMake"
+    Parametrized = @{
+        everything     = @(
+            "/client-service"
+            "/folder-context-menu"
+            "/run-on-system-startup"
+            "/start-menu-shortcuts"
         )
-        "visualstudio2019-workload-nativedesktop"   = @(
-            "--no-includeRecommended"
-            "--add Microsoft.VisualStudio.Component.Debugger.JustInTime"
-            "--add Microsoft.VisualStudio.Component.VC.ASAN"
-            "--add Microsoft.VisualStudio.Component.VC.CMake.Project"
-            "--add Microsoft.VisualStudio.Component.VC.DiagnosticTools"
-            "--add Microsoft.VisualStudio.Component.VC.TestAdapterForGoogleTest"
-            "--add Microsoft.VisualStudio.Component.VC.Tools.x86.x64"
-            "--add Microsoft.VisualStudio.Component.VC.Llvm.Clang"
-            "--add Microsoft.VisualStudio.Component.VC.Llvm.ClangToolset"
-            "--add Microsoft.VisualStudio.Component.Windows10SDK.18362"
-            "--add Microsoft.VisualStudio.ComponentGroup.NativeDesktop.Llvm.Clang"
+        foobar2000     = @("/NoShortcut")
+        git            = @(
+            "/WindowsTerminal"
+            "/NoShellIntegration"
+            "/GitAndUnixToolsOnPath"
         )
+        miktex         = @("/Set:basic")
+        msys2          = @("/NoUpdate")
+        totalcommander = @("/ShellExtension")
+        vscode         = @("/NoDesktopIcon")
+    }
+}
+
+$Toolchains = @{
+    Ada          = @{
+        AlireVersion = "0.7.1"
+    }
+    Rust         = @{
+        Arch = "x86_64"
+    }
+    VisualStudio = @{
+        Packages = @{
+            Main      = @{
+                "visualstudio2019community" = @(
+                    "--no-update"
+                )
+            }
+            Workloads = @{
+                "visualstudio2019-workload-nativecrossplat" = @(
+                    "--no-includeRecommended"
+                    "--add Component.Linux.CMake"
+                )
+                "visualstudio2019-workload-nativedesktop"   = @(
+                    "--no-includeRecommended"
+                    "--add Microsoft.VisualStudio.Component.Debugger.JustInTime"
+                    "--add Microsoft.VisualStudio.Component.VC.ASAN"
+                    "--add Microsoft.VisualStudio.Component.VC.CMake.Project"
+                    "--add Microsoft.VisualStudio.Component.VC.DiagnosticTools"
+                    "--add Microsoft.VisualStudio.Component.VC.TestAdapterForGoogleTest"
+                    "--add Microsoft.VisualStudio.Component.VC.Tools.x86.x64"
+                    "--add Microsoft.VisualStudio.Component.VC.Llvm.Clang"
+                    "--add Microsoft.VisualStudio.Component.VC.Llvm.ClangToolset"
+                    "--add Microsoft.VisualStudio.Component.Windows10SDK.18362"
+                    "--add Microsoft.VisualStudio.ComponentGroup.NativeDesktop.Llvm.Clang"
+                )
+            }
+        }
+    }
+    WSL          = @{
+        Packages = @{
+            Main   = "wsl"
+            Distro = "wsl-ubuntu-2004"
+        }
     }
 }
 
@@ -222,6 +237,12 @@ $ConfigFiles = @{
         @{
             Contents    = "$($Dirs.Licenses)\reaper.key"
             Destination = "$env:APPDATA\REAPER\reaper-license.rk"
+        }
+    )
+    scripts  = @(
+        @{
+            Contents    = "$($Dirs.Scripts)\*"
+            Destination = "$env:USERPROFILE\bin\"
         }
     )
 }

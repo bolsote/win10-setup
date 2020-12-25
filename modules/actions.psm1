@@ -6,52 +6,32 @@ function Rename-Box([string]$Name) {
     Rename-Computer -NewName $Name
 }
 
-function Enable-WindowsFeatures(
-    [System.Collections.Specialized.OrderedDictionary]$Capabilities,
-    [System.Collections.Specialized.OrderedDictionary]$Features
-) {
+function Enable-WindowsFeatures([hashtable]$Features) {
     Write-Action "Enabling Windows capabilities and features"
 
-    foreach ($Capability in $Capabilities.Values) {
+    foreach ($Capability in $Features.Caps.Values) {
         Add-WindowsCapability -Online -Name $Capability
     }
 
-    foreach ($Feature in $Features.Values) {
+    foreach ($Feature in $Features.Features.Values) {
         Enable-WindowsOptionalFeature -Online -FeatureName $Feature -All
     }
 
-    # Should restart after this.
+    # Invoke-Reboot
 }
 
-function Install-Packages(
-    [hashtable]$PackageList,
-    [hashtable]$ParametrisedPackages
-) {
+function Install-Packages([hashtable]$Packages) {
     Write-Action "Installing packages"
 
-    Install-WithParams $ParametrisedPackages
-    Install-List $PackageList
+    Install-WithParams $Packages.Parametrized
+    Install-List $Packages.Categories
+    Install-List $Packages.WSL
 }
 
-function Install-VS([hashtable]$Packages) {
-    Write-Action "Installing Visual Studio"
-
-    Install-WithParams $Packages.Main
-    # Should restart after this.
-    Install-WithParams $Packages.Workloads
-}
-
-function Install-WSL([string]$Distro = "wsl-ubuntu-2004") {
-    Write-Action "Installing WSL"
-
-    choco upgrade -y wsl
-    # Should restart after this.
-    choco upgrade -y $Distro
-}
-
-function Install-Alire([string]$Version) {
+function Install-Ada([hashtable]$Config) {
     Write-Action "Setting up Alire for Ada development"
 
+    $Version = $Config.AlireVersion
     $AlireRepo = "https://github.com/alire-project/alire"
     $AlireURI = "$AlireRepo/releases/download/v$Version/alr-$Version-bin-windows.zip"
 
@@ -63,14 +43,38 @@ function Install-Alire([string]$Version) {
     Move-Item .\alr.exe "$HOME\bin\alr.exe"
 }
 
-function Install-Rust {
+function Install-Rust([hashtable]$Config) {
     Write-Action "Setting up Rust toolchain"
 
-    $RustupURI = "https://win.rustup.rs/x86_64"
+    $Arch = $Config.Arch
+    $RustupURI = "https://win.rustup.rs/$Arch"
 
     Invoke-WebRequest $RustupURI -OutFile rustup-init.exe
     &.\rustup-init.exe -y
     Remove-Item -Force rustup-init.exe
+}
+
+function Install-VS([hashtable]$Config) {
+    Write-Action "Installing Visual Studio"
+
+    Install-WithParams $Config.Packages.Main
+    # Invoke-Reboot
+    Install-WithParams $Config.Packages.Workloads
+}
+
+function Install-WSL([hashtable]$Config) {
+    Write-Action "Installing WSL"
+
+    choco upgrade -y $($Config.Packages.Main)
+    # Invoke-Reboot
+    choco upgrade -y $($Config.Packages.Distro)
+}
+
+function Install-Toolchains([hashtable]$Config) {
+    Install-Ada $Config.Ada
+    Install-Rust $Config.Rust
+    Install-VS $Config.VisualStudio
+    Install-WSL $Config.WSL
 }
 
 function Copy-Configs([hashtable]$Configs) {
@@ -82,10 +86,6 @@ function Copy-Configs([hashtable]$Configs) {
             Copy-Item $Contents -Destination $Destination
         }
     }
-}
-
-function Copy-Scripts([string]$Source) {
-    Copy-DirContents $Source "$HOME\bin"
 }
 
 function Copy-ManualPackages([string]$Source) {

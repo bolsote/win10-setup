@@ -3,16 +3,11 @@ Import-Module $PSScriptRoot\modules\actions -Force
 
 
 Rename-Box $ComputerName
-Enable-WindowsFeatures $WindowsCaps $WindowsFeatures
+Enable-WindowsFeatures $Windows
 
-Install-Packages $Packages $PackagesWithParams
-Install-VS $VSPackages
-Install-WSL
-
-Install-Alire $AlireVersion
-Install-Rust
+Install-Packages $Packages
+Install-Toolchains $Toolchains
 
 Copy-Configs $ConfigFiles
 Copy-ManualPackages $Dirs.ManualPackages
-Copy-Scripts $Dirs.Scripts
 Set-Registry $RegFiles
