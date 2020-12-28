@@ -184,7 +184,6 @@ $SetupRoot = Split-Path $PSScriptRoot -Parent
 $Dirs = @{
     Configurations = Join-Path $SetupRoot "config"
     Registry       = Join-Path $SetupRoot "registry"
-    Scripts        = Join-Path $SetupRoot "scripts"
     Licenses       = "$env:OneDrive\Configurations\win\keys"
     ManualPackages = "$env:OneDrive\Configurations\Win\soft"
 }
@@ -240,12 +239,6 @@ $ConfigFiles = @{
         @{
             Contents    = "$($Dirs.Licenses)\reaper.key"
             Destination = "$env:APPDATA\REAPER\reaper-license.rk"
-        }
-    )
-    scripts  = @(
-        @{
-            Contents    = "$($Dirs.Scripts)\*"
-            Destination = "$env:USERPROFILE\bin\"
         }
     )
 }
