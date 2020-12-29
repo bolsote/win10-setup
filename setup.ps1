@@ -1,7 +1,11 @@
 Import-Module $PSScriptRoot\modules\configuration -Force
 Import-Module $PSScriptRoot\modules\actions -Force
+Import-Module $PSScriptRoot\modules\winconfig -Force
 
 
+Install-Boxstarter
+
+Set-WindowsSettings
 Rename-Box $ComputerName
 Enable-WindowsFeatures $Windows
 
