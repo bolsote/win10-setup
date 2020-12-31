@@ -2,24 +2,17 @@
 // It should still be usable in newer versions, but newer versions might have additional
 // settings, help text, or changes that you will not see unless you clear this file
 // and let us generate a new one for you.
-
 // To view the default settings, hold "alt" while clicking on the "Settings" button.
 // For documentation on these settings, see: https://aka.ms/terminal-documentation
 {
     "$schema": "https://aka.ms/terminal-profiles-schema",
-
     "defaultProfile": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
-
     "copyOnSelect": true,
     "copyFormatting": false,
-
     "useTabSwitcher": true,
     "launchMode": "maximized",
-
-    "profiles":
-    {
-        "defaults":
-        {
+    "profiles": {
+        "defaults": {
             "colorScheme": "Solarized Light",
             "fontFace": "Source Code Pro",
             "fontSize": 10,
@@ -28,48 +21,46 @@
             "scrollbarState": "hidden",
             "historySize": 20000
         },
-        "list":
-        [
+        "list": [
             {
                 "guid": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
-                "hidden": false,
                 "name": "PowerShell",
                 "source": "Windows.Terminal.PowershellCore"
             },
             {
                 "guid": "{07b52e3e-de2c-5db4-bd2d-ba144ed6c273}",
-                "hidden": false,
                 "name": "Ubuntu-20.04",
                 "source": "Windows.Terminal.Wsl"
             },
             {
                 "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
                 "name": "Windows PowerShell",
-                "commandline": "powershell.exe",
-                "hidden": false
+                "commandline": "powershell.exe"
             },
             {
                 "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
                 "name": "Command Prompt",
-                "commandline": "cmd.exe",
-                "hidden": false
+                "commandline": "cmd.exe"
             },
             {
                 "guid": "{b453ae62-4e3d-5e58-b989-0a998ec441b8}",
-                "hidden": false,
                 "name": "Azure Cloud Shell",
                 "source": "Windows.Terminal.Azure"
             },
             {
                 "guid": "{e4344379-1ea4-4edc-aaf6-221deba7f1db}",
-                "hidden": false,
                 "name": "VS 2019 Shell",
-                "commandline": "powershell -NoExit -File \"%USERPROFILE%/bin/vsshell.ps1\"",
+                "commandline": "pwsh -NoExit -Command &{VSShell}",
+                "icon": "ms-appx:///ProfileIcons/{61c54bbd-c2c6-5271-96e7-009a87ff44bf}.png"
+            },
+            {
+                "guid": "{74dc2565-cf7a-4981-819a-cbc117d55e65}",
+                "name": "VC++ x64 Shell",
+                "commandline": "pwsh -NoExit -Command &{VCShell x64}",
                 "icon": "ms-appx:///ProfileIcons/{61c54bbd-c2c6-5271-96e7-009a87ff44bf}.png"
             },
             {
                 "guid": "{b613a51f-6e42-4b65-843d-71236b353452}",
-                "hidden": false,
                 "name": "MSYS2",
                 "commandline": "C:/tools/msys64/msys2_shell.cmd -defterm -here -no-start -msys",
                 "startingDirectory": "C:/tools/msys64/home/%USERNAME%",
@@ -77,7 +68,6 @@
             },
             {
                 "guid": "{9821f54b-50f3-4d22-8697-a4d87a5ff814}",
-                "hidden": false,
                 "name": "MINGW64",
                 "commandline": "C:/tools/msys64/msys2_shell.cmd -defterm -here -no-start -mingw64",
                 "startingDirectory": "C:/tools/msys64/home/%USERNAME%",
@@ -85,7 +75,6 @@
             },
             {
                 "guid": "{a9bef5a6-6224-4191-8564-682351c8ad59}",
-                "hidden": false,
                 "name": "MINGW32",
                 "commandline": "C:/tools/msys64/msys2_shell.cmd -defterm -here -no-start -mingw32",
                 "startingDirectory": "C:/tools/msys64/home/%USERNAME%",
@@ -93,24 +82,38 @@
             }
         ]
     },
-
     "schemes": [],
-
-    "actions":
-    [
+    "actions": [
         // Copy and paste are bound to Ctrl+Shift+C and Ctrl+Shift+V in your defaults.json.
         // These two lines additionally bind them to Ctrl+C and Ctrl+V.
         // To learn more about selection, visit https://aka.ms/terminal-selection
-        { "command": {"action": "copy", "singleLine": false }, "keys": "ctrl+c" },
-        { "command": "paste", "keys": "ctrl+v" },
-
+        {
+            "command": {
+                "action": "copy",
+                "singleLine": false
+            },
+            "keys": "ctrl+c"
+        },
+        {
+            "command": "paste",
+            "keys": "ctrl+v"
+        },
         // Press Ctrl+Shift+F to open the search box
-        { "command": "find", "keys": "ctrl+shift+f" },
-
+        {
+            "command": "find",
+            "keys": "ctrl+shift+f"
+        },
         // Press Alt+Shift+D to open a new pane.
         // - "split": "auto" makes this pane open in the direction that provides the most surface area.
         // - "splitMode": "duplicate" makes the new pane use the focused pane's profile.
         // To learn more about panes, visit https://aka.ms/terminal-panes
-        { "command": { "action": "splitPane", "split": "auto", "splitMode": "duplicate" }, "keys": "alt+shift+d" }
+        {
+            "command": {
+                "action": "splitPane",
+                "split": "auto",
+                "splitMode": "duplicate"
+            },
+            "keys": "alt+shift+d"
+        }
     ]
 }

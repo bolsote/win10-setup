@@ -9,7 +9,7 @@ function Add-Path([string[]]$Paths = '.') {
 	}
 }
 
-function Copy-Env([string]$Cmd, [string[]]$CmdArgs) {
+function Get-CmdEnv([string]$Cmd, [string[]]$CmdArgs) {
 	# Given a batch file, return the environment it sets in a hash map.
 
 	$OldEnv = &cmd /c set
@@ -24,6 +24,16 @@ function Copy-Env([string]$Cmd, [string[]]$CmdArgs) {
 	}
 
 	return $EnvVars
+}
+
+function Copy-CmdEnv([string]$Cmd, [string[]]$CmdArgs) {
+	# Given a batch file, set the PS environment based on it.
+
+	$CmdEnv = Get-CmdEnv $Cmd $CmdArgs
+
+	foreach ($EnvVar in $CmdEnv.GetEnumerator()) {
+		Set-Item "Env:$($EnvVar.Name)" "$($EnvVar.Value)"
+	}
 }
 #endregion Utilities
 
@@ -81,11 +91,7 @@ function VCShell {
 	if ($VCpp) { [void]$VCVarsArgs.Add("-vcvars_ver=$VCpp") }
 	if ($Spectre) { [void]$VCVarsArgs.Add("-vcvars_spectre_libs=spectre") }
 
-	$VSEnv = Copy-Env $VCVarsAll $VCVarsArgs
-
-	foreach ($EnvVar in $VSEnv.GetEnumerator()) {
-		Set-Item "Env:$($EnvVar.Name)" "$($EnvVar.Value)"
-	}
+	Copy-CmdEnv $VCVarsAll $VCVarsArgs
 }
 #endregion VS
 
@@ -104,11 +110,7 @@ function Get-VMIP {
 
 	[CmdletBinding()]
 	Param(
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipeline = $true,
-			ValueFromPipelineByPropertyName = $true
-		)]
+		[parameter(Mandatory = $True)]
 		[alias("VM")]
 		[string]$Name
 	)
@@ -122,19 +124,11 @@ function Set-VMCP {
 
 	[CmdletBinding()]
 	Param(
-		[parameter(
-			Mandatory = $true,
-			ValueFromPipeline = $true,
-			ValueFromPipelineByPropertyName = $true
-		)]
+		[parameter(Mandatory = $True)]
 		[alias("VM")]
 		[string]$Name,
 
-		[parameter(
-			Mandatory = $false,
-			ValueFromPipeline = $true,
-			ValueFromPipelineByPropertyName = $true
-		)]
+		[parameter(Mandatory = $False)]
 		[alias("CP")]
 		[string]$CPName = $("{0}-{1}" -f $Env:OS, (Get-Date).toString('yyyyMMddHHmm'))
 	)
@@ -144,19 +138,36 @@ function Set-VMCP {
 }
 #endregion VM management
 
-#region Aliases, paths, and assorted configurations.
-# Aliases.
-New-Alias vea Set-VEnv -Force
+#region PSReadLine
+Import-Module PSReadLine
 
-# Setup path.
-Add-Path "$HOME\bin"
+Set-PSReadLineOption -EditMode Emacs
 
-# Chocolatey profile.
+# Search based on current input when navegating command history.
+Set-PSReadLineKeyHandler -Key UpArrow -Function HistorySearchBackward
+Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward
+Set-PSReadLineOption -HistorySearchCursorMovesToEnd
+
+# Token-based word movement.
+Set-PSReadLineKeyHandler -Key Alt+b -Function ShellBackwardWord
+Set-PSReadLineKeyHandler -Key Alt+f -Function ShellForwardWord
+Set-PSReadLineKeyHandler -Key Alt+B -Function SelectShellBackwardWord
+Set-PSReadLineKeyHandler -Key Alt+F -Function SelectShellForwardWord
+Set-PSReadLineKeyHandler -Key Alt+d -Function ShellKillWord
+Set-PSReadLineKeyHandler -Key Alt+Backspace -Function ShellBackwardKillWord
+#endregion PSReadLine
+
+#region Chocolatey
 $ChocolateyProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
 if (Test-Path($ChocolateyProfile)) {
 	Import-Module "$ChocolateyProfile"
 }
+#endregion Chocolatey
 
-# Prompt.
+#region Additional configuration
+New-Alias vea Set-VEnv -Force
+
+Add-Path "$HOME\bin"
+
 Invoke-Expression (&starship init powershell)
-#endregion Aliases, paths, and assorted configurations.
+#endregion Additional configuration

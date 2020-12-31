@@ -15,11 +15,11 @@
 	ui = false
 
 [diff]
-    tool = vscode
+	tool = vscode
 [difftool "vscode"]
-    cmd = code -w --diff $LOCAL $REMOTE
+	cmd = code -w --diff $LOCAL $REMOTE
 
 [merge]
-    tool = vscode
+	tool = vscode
 [mergetool "vscode"]
-    cmd = code -w $MERGED
+	cmd = code -w $MERGED
