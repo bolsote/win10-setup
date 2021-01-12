@@ -55,6 +55,7 @@ $Packages = @{
             "pov-ray"
             "reaper"
             "vlc"
+            "voicemeeter-banana.install"
         )
         Net         = @(
             "aria2"
