@@ -25,6 +25,7 @@ $Packages = @{
             "cuda"
             "deno"
             "dotnet"
+            "imhex"
             "julia"
             "git-credential-manager-for-windows"
             "gnat-gpl"
@@ -32,11 +33,13 @@ $Packages = @{
             "nvs"
             "openjdk"
             "python3"
+            "sourcetrail"
+            "velocity"
             "winmerge"
         )
         Games       = @(
             "goggalaxy"
-            "steam"
+            "steam-client"
         )
         Images      = @(
             "irfanview"
@@ -63,7 +66,10 @@ $Packages = @{
             "googlechrome"
             "nmap"
             "putty.install"
+            "tailscale"
+            "ultravnc"
             "vivaldi"
+            "wakemeonlan"
             "wifiinfoview"
             "winscp"
             "wireshark"
@@ -135,7 +141,7 @@ $Packages = @{
 
 $Toolchains = @{
     Ada          = @{
-        AlireVersion = "0.7.1"
+        AlireVersion = "1.0.0"
     }
     Rust         = @{
         Arch      = "x86_64"
