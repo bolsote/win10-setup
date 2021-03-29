@@ -1,0 +1,19 @@
+[character]
+success_symbol = "[ℵ](bold green)"
+error_symbol = "[⚔](bold red)"
+
+[directory]
+truncation_symbol = "…/"
+
+[hostname]
+ssh_only = false
+
+[custom.ada]
+files = ["alire.toml"]
+when = "alr show"
+
+symbol = "🐞 "
+command = "(&alr version)[0].Split()[-1]"
+style = "green bold"
+
+format = "via [$symbol($output)]($style)"

@@ -1,7 +1,9 @@
+auto-gpr-with = true
 [user]
 name = "Victor Munoz"
 email = "victorm@marshland.es"
 github_login = "bolsote"
-
+[editor]
+cmd = "code ${GPR_FILE}"
 [msys2]
 install_dir = "C:\\tools\\msys64\\"

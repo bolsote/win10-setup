@@ -35,6 +35,29 @@ function Copy-CmdEnv([string]$Cmd, [string[]]$CmdArgs) {
 		Set-Item "Env:$($EnvVar.Name)" "$($EnvVar.Value)"
 	}
 }
+
+function Open-TotalCmd([string]$Path = '.', [switch]$Target = $false) {
+	# Open Total Commander, with the source panel set at $Path (defaults to the
+	# current directory).
+	# If $Target is true, then the destination panel is set at $Path.
+
+	$TotalCmdExe = "${env:COMMANDER_PATH}\TOTALCMD64.EXE"
+	$FullPath = Resolve-Path $Path
+
+	if ($Target) {
+		$PathArg = "/r=`"$FullPath`""
+	} else {
+		$PathArg = "/l=`"$FullPath`""
+	}
+
+	&$TotalCmdExe /o /s $PathArg
+}
+
+function Find-GitRepos([string]$Path = '.') {
+	# Find all Git repositories under $Path.
+
+	return &es -path $Path -ad -path-column -i regex:\.git$
+}
 #endregion Utilities
 
 #region Python
@@ -45,24 +68,40 @@ function Set-VEnv([string]$VEnv = 've') {
 	$VEA = Join-Path $VEnv 'Scripts\activate.ps1'
 	&"$VEA"
 }
+
+function New-VEnv([string]$VEnv = 've', [string]$Requirements = 'requirements.txt') {
+	# Create and activate a new virtual environment in $VEnv, and install the
+	# requirements from the $Requirements file.
+
+	&python -m venv $VEnv
+	Set-Venv -VEnv $VEnv
+	&pip install -r $Requirements
+}
 #endregion Python
 
 #region VS
-function FindVS([string]$Property = "installationPath") {
+function Find-VS([string]$Property = "installationPath") {
+	# Find out information about a Visual Studio installation.
+
 	$VSWhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\VSWhere.exe"
 
 	return &$VSWhere -latest -property $Property
 }
 
-function VSShell {
-	$InstanceId = FindVS instanceId
-	$Path = FindVS installationPath
+function Get-VSShell {
+	# Get a Visual Studio Developer Command Prompt.
+
+	$InstanceId = Find-VS instanceId
+	$Path = Find-VS installationPath
 
 	Import-Module "$Path\Common7\Tools\Microsoft.VisualStudio.DevShell.dll"
 	Enter-VSDevShell $InstanceId
 }
 
-function VCShell {
+function Get-VCShell {
+	# Get a Visual Studio C++ Developer Command Prompt for the specified
+	# architecture, with the specified (optional) configuration.
+
 	param (
 		[Parameter(Mandatory = $True)]
 		[ValidateSet(
@@ -81,7 +120,7 @@ function VCShell {
 
 	)
 
-	$Path = FindVS installationPath
+	$Path = Find-VS installationPath
 
 	$VCVarsAll = "$Path\VC\Auxiliary\Build\vcvarsall.bat"
 	$VCVarsArgs = [System.Collections.ArrayList]@($Arch)
@@ -165,6 +204,7 @@ if (Test-Path($ChocolateyProfile)) {
 #endregion Chocolatey
 
 #region Additional configuration
+New-Alias totalcmd Open-TotalCmd
 New-Alias vea Set-VEnv -Force
 
 Add-Path "$HOME\bin"
