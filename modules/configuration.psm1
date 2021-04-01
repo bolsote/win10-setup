@@ -96,6 +96,8 @@ $Packages = @{
             "pswindowsupdate"
             "burnttoast-psmodule"
             "pester"
+            "fzf"
+            "bat"
         )
         Tools       = @(
             "7zip.install"

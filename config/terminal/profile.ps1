@@ -60,6 +60,22 @@ function Find-GitRepos([string]$Path = '.') {
 }
 #endregion Utilities
 
+#region Fuzzy helpers
+function Open-Repo() {
+	# Get all Git repositories under the current working directory, and go to
+	# the fuzzy-matched one.
+
+	Find-GitRepos | fzf | Set-Location
+}
+
+function Edit-Repos() {
+	# Get all Git repositories under the current working directory, and open
+	# all the fuzzy-matched ones with Code.
+
+	Find-GitRepos | fzf -m | ForEach-Object { code $_ }
+}
+#endregion Fuzzy helpers
+
 #region Python
 function Set-VEnv([string]$VEnv = 've') {
 	# Activate a Python virtual environment in the current directory.
@@ -204,6 +220,8 @@ if (Test-Path($ChocolateyProfile)) {
 #endregion Chocolatey
 
 #region Additional configuration
+New-Alias cdgit Open-Repo
+New-Alias edit Edit-Repos
 New-Alias totalcmd Open-TotalCmd
 New-Alias vea Set-VEnv -Force
 
