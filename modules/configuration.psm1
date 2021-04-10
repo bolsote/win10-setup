@@ -21,7 +21,6 @@ $Packages = @{
     Categories   = @{
         Development = @(
             "autohotkey"
-            "boxstarter"
             "cuda"
             "deno"
             "dotnet"
@@ -77,6 +76,17 @@ $Packages = @{
         Office      = @(
             "adobedigitaleditions"
             "sumatrapdf"
+        )
+        Ops         = @(
+            "awscli"
+            "aws-vault"
+            "boxstarter"
+            "dive"
+            "docker-desktop"
+            "packer"
+            "terraform"
+            "tflint"
+            "tfsec"
         )
         System      = @(
             "drmemory"
