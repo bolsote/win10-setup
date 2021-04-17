@@ -197,6 +197,24 @@ function Set-VMCP {
 Import-Module PSReadLine
 
 Set-PSReadLineOption -EditMode Emacs
+Set-PSReadLineOption -BellStyle None
+
+Set-PSReadLineOption -Colors @{
+	Command            = 'Yellow'
+	Comment            = 'DarkGreen'
+	ContinuationPrompt = 'DarkYellow'
+	Default            = 'DarkYellow'
+	Emphasis           = 'Cyan'
+	Error              = 'Red'
+	Keyword            = 'Green'
+	Member             = 'DarkGreen'
+	Number             = 'DarkGreen'
+	Operator           = 'DarkCyan'
+	Parameter          = 'DarkCyan'
+	String             = 'Blue'
+	Type               = 'DarkBlue'
+	Variable           = 'Green'
+}
 
 # Search based on current input when navegating command history.
 Set-PSReadLineKeyHandler -Key UpArrow -Function HistorySearchBackward
