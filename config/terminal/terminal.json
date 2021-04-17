@@ -11,6 +11,7 @@
     "copyFormatting": false,
     "useTabSwitcher": true,
     "launchMode": "maximized",
+    "tabSwitcherMode": "mru",
     "profiles": {
         "defaults": {
             "colorScheme": "Solarized Light",
@@ -49,7 +50,7 @@
             },
             {
                 "guid": "{e4344379-1ea4-4edc-aaf6-221deba7f1db}",
-                "name": "VS 2019 Shell",
+                "name": "VS Shell",
                 "commandline": "pwsh -NoExit -Command &{Get-VSShell}",
                 "icon": "ms-appx:///ProfileIcons/{61c54bbd-c2c6-5271-96e7-009a87ff44bf}.png"
             },
@@ -64,21 +65,24 @@
                 "name": "MSYS2",
                 "commandline": "C:/tools/msys64/msys2_shell.cmd -defterm -here -no-start -msys",
                 "startingDirectory": "C:/tools/msys64/home/%USERNAME%",
-                "icon": "C:/tools/msys64/msys2.ico"
+                "icon": "C:/tools/msys64/msys2.ico",
+                "closeOnExit": "always"
             },
             {
                 "guid": "{9821f54b-50f3-4d22-8697-a4d87a5ff814}",
                 "name": "MINGW64",
                 "commandline": "C:/tools/msys64/msys2_shell.cmd -defterm -here -no-start -mingw64",
                 "startingDirectory": "C:/tools/msys64/home/%USERNAME%",
-                "icon": "C:/tools/msys64/mingw64.ico"
+                "icon": "C:/tools/msys64/mingw64.ico",
+                "closeOnExit": "always"
             },
             {
                 "guid": "{a9bef5a6-6224-4191-8564-682351c8ad59}",
                 "name": "MINGW32",
                 "commandline": "C:/tools/msys64/msys2_shell.cmd -defterm -here -no-start -mingw32",
                 "startingDirectory": "C:/tools/msys64/home/%USERNAME%",
-                "icon": "C:/tools/msys64/mingw32.ico"
+                "icon": "C:/tools/msys64/mingw32.ico",
+                "closeOnExit": "always"
             }
         ]
     },
