@@ -28,6 +28,7 @@ $Packages = @{
             "julia"
             "git-credential-manager-for-windows"
             "gnat-gpl"
+            "golang"
             "linqpad"
             "nvs"
             "openjdk"
@@ -48,7 +49,6 @@ $Packages = @{
             "lyx"
         )
         Media       = @(
-            "amazon-music"
             "eac"
             "freac"
             "freeencoderpack"
@@ -56,6 +56,7 @@ $Packages = @{
             "lossless-audio-checker"
             "pov-ray"
             "reaper"
+            "tidal"
             "vlc"
             "voicemeeter-banana.install"
         )

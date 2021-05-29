@@ -83,6 +83,22 @@
                 "startingDirectory": "C:/tools/msys64/home/%USERNAME%",
                 "icon": "C:/tools/msys64/mingw32.ico",
                 "closeOnExit": "always"
+            },
+            {
+                "guid": "{292def58-2aaa-46cb-901a-f1e42e4d8bb8}",
+                "name": "CLANG64",
+                "commandline": "C:/tools/msys64/msys2_shell.cmd -defterm -here -no-start -clang64",
+                "startingDirectory": "C:/tools/msys64/home/%USERNAME%",
+                "icon": "C:/tools/msys64/clang64.ico",
+                "closeOnExit": "always"
+            },
+            {
+                "guid": "{87684acb-41b7-4c61-92f3-0cd6489c1b41}",
+                "name": "UCRT64",
+                "commandline": "C:/tools/msys64/msys2_shell.cmd -defterm -here -no-start -ucrt64",
+                "startingDirectory": "C:/tools/msys64/home/%USERNAME%",
+                "icon": "C:/tools/msys64/ucrt64.ico",
+                "closeOnExit": "always"
             }
         ]
     },
